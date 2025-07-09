@@ -230,7 +230,7 @@ a:hover {
 }
 
 .socials .ico-circle:hover {
-  background-color: #0ff9;
+  background-color: #000;
   color: #fff;
   box-shadow: 0 0 0 3px #cde1f8;
   transition: all 500ms ease;

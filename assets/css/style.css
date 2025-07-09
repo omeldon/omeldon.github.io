@@ -2,7 +2,11 @@
 //--//-->   STYLES GENERALES
 ======================================*/
 
-h1,h2,h4,h5,h6 {
+h1,
+h2,
+h4,
+h5,
+h6 {
   color: #1e1e1e;
 }
 h3 {
@@ -130,7 +134,7 @@ a:hover {
 /*--/ Title A /--*/
 
 .title-box {
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
 }
 
 .title-a {
@@ -174,22 +178,23 @@ a:hover {
 
 .borderex {
   background-image: linear-gradient(to right, #09c6f9, #0078ff);
-    display: inline-block;
-    font-weight: 400;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    border: 0px solid transparent;
-    border-radius: 7px;
-    padding: 0.375rem 0.75rem;
-    font-size: 1rem;
-    font-weight: bold;
-    line-height: 1.5;
-    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border: 0px solid transparent;
+  border-radius: 7px;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: bold;
+  line-height: 1.5;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 .borderex:hover {
   box-shadow: inset 170px 0 0 0 lightseagreen;
@@ -686,13 +691,35 @@ a:hover {
 }
 
 .about-mf .about-img {
-  margin-bottom: 2rem;
+  margin-bottom: 10px;
 }
 
 .about-mf .about-img img {
   margin-left: 10px;
 }
 
+#download-btn {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Hover Effect */
+#download-btn:hover {
+  background-color: #0056b3;
+  transform: scale(1.05); /* Slightly enlarge the button */
+}
+
+/* Optional: Add focus outline for accessibility */
+#download-btn:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
 
 /*======================================
 //--//-->   SKILLS

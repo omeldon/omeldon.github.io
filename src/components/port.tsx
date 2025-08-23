@@ -75,8 +75,9 @@ interface Skill {
   description: string;
 }
 
-// Floating particles component
-const FloatingParticles: React.FC<{ darkMode: boolean }> = ({ darkMode }) => {
+const InteractiveBackground: React.FC<{ darkMode: boolean }> = ({
+  darkMode,
+}) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -94,6 +95,7 @@ const FloatingParticles: React.FC<{ darkMode: boolean }> = ({ darkMode }) => {
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
 
+    // Interactive particles
     const particles: Array<{
       x: number;
       y: number;
@@ -101,42 +103,166 @@ const FloatingParticles: React.FC<{ darkMode: boolean }> = ({ darkMode }) => {
       vy: number;
       size: number;
       opacity: number;
+      color: string;
+      pulse: number;
     }> = [];
 
     // Create particles
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 60; i++) {
       particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 1,
+        vy: (Math.random() - 0.5) * 1,
+        size: Math.random() * 4 + 2,
+        opacity: Math.random() * 0.8 + 0.2,
+        color: darkMode
+          ? `hsl(${200 + Math.random() * 60}, 70%, 60%)`
+          : `hsl(${200 + Math.random() * 60}, 60%, 50%)`,
+        pulse: Math.random() * Math.PI * 2,
+      });
+    }
+
+    // Floating geometric shapes
+    const shapes: Array<{
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      size: number;
+      rotation: number;
+      rotationSpeed: number;
+      type: "circle" | "triangle" | "square";
+      opacity: number;
+    }> = [];
+
+    for (let i = 0; i < 15; i++) {
+      shapes.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
         vx: (Math.random() - 0.5) * 0.5,
         vy: (Math.random() - 0.5) * 0.5,
-        size: Math.random() * 3 + 1,
-        opacity: Math.random() * 0.5 + 0.2,
+        size: Math.random() * 30 + 10,
+        rotation: Math.random() * Math.PI * 2,
+        rotationSpeed: (Math.random() - 0.5) * 0.02,
+        type: ["circle", "triangle", "square"][
+          Math.floor(Math.random() * 3)
+        ] as "circle" | "triangle" | "square",
+        opacity: Math.random() * 0.3 + 0.1,
       });
     }
 
-    const animate = () => {
+    const animate = (time: number) => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      particles.forEach((particle) => {
+      // Animate particles
+      particles.forEach((particle, index) => {
         particle.x += particle.vx;
         particle.y += particle.vy;
+        particle.pulse += 0.05;
 
+        // Bounce off edges
         if (particle.x < 0 || particle.x > canvas.width) particle.vx *= -1;
         if (particle.y < 0 || particle.y > canvas.height) particle.vy *= -1;
 
+        // Keep particles in bounds
+        particle.x = Math.max(0, Math.min(canvas.width, particle.x));
+        particle.y = Math.max(0, Math.min(canvas.height, particle.y));
+
+        const pulsedSize = particle.size + Math.sin(particle.pulse) * 2;
+        const pulsedOpacity = particle.opacity + Math.sin(particle.pulse) * 0.3;
+
         ctx.beginPath();
-        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-        ctx.fillStyle = darkMode
-          ? `rgba(59, 130, 246, ${particle.opacity})`
-          : `rgba(99, 102, 241, ${particle.opacity})`;
+        ctx.arc(particle.x, particle.y, pulsedSize, 0, Math.PI * 2);
+        ctx.fillStyle = particle.color
+          .replace(")", `, ${pulsedOpacity})`)
+          .replace("hsl", "hsla");
         ctx.fill();
+
+        // Add glow effect
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = particle.color;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        // Connect nearby particles
+        particles.forEach((otherParticle, otherIndex) => {
+          if (index !== otherIndex) {
+            const distance = Math.sqrt(
+              Math.pow(particle.x - otherParticle.x, 2) +
+                Math.pow(particle.y - otherParticle.y, 2)
+            );
+
+            if (distance < 100) {
+              ctx.beginPath();
+              ctx.moveTo(particle.x, particle.y);
+              ctx.lineTo(otherParticle.x, otherParticle.y);
+              ctx.strokeStyle = darkMode
+                ? `rgba(59, 130, 246, ${0.2 - distance / 500})`
+                : `rgba(99, 102, 241, ${0.2 - distance / 500})`;
+              ctx.lineWidth = 1;
+              ctx.stroke();
+            }
+          }
+        });
+      });
+
+      // Animate geometric shapes
+      shapes.forEach((shape) => {
+        shape.x += shape.vx;
+        shape.y += shape.vy;
+        shape.rotation += shape.rotationSpeed;
+
+        // Bounce off edges
+        if (shape.x < -50 || shape.x > canvas.width + 50) shape.vx *= -1;
+        if (shape.y < -50 || shape.y > canvas.height + 50) shape.vy *= -1;
+
+        ctx.save();
+        ctx.translate(shape.x, shape.y);
+        ctx.rotate(shape.rotation);
+        ctx.globalAlpha = shape.opacity;
+
+        const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, shape.size);
+        gradient.addColorStop(
+          0,
+          darkMode ? "rgba(59, 130, 246, 0.6)" : "rgba(99, 102, 241, 0.6)"
+        );
+        gradient.addColorStop(
+          1,
+          darkMode ? "rgba(147, 51, 234, 0.1)" : "rgba(168, 85, 247, 0.1)"
+        );
+
+        switch (shape.type) {
+          case "circle":
+            ctx.beginPath();
+            ctx.arc(0, 0, shape.size / 2, 0, Math.PI * 2);
+            ctx.fillStyle = gradient;
+            ctx.fill();
+            break;
+          case "triangle":
+            ctx.beginPath();
+            ctx.moveTo(0, -shape.size / 2);
+            ctx.lineTo(-shape.size / 2, shape.size / 2);
+            ctx.lineTo(shape.size / 2, shape.size / 2);
+            ctx.closePath();
+            ctx.fillStyle = gradient;
+            ctx.fill();
+            break;
+          case "square":
+            ctx.beginPath();
+            ctx.rect(-shape.size / 2, -shape.size / 2, shape.size, shape.size);
+            ctx.fillStyle = gradient;
+            ctx.fill();
+            break;
+        }
+
+        ctx.restore();
       });
 
       requestAnimationFrame(animate);
     };
 
-    animate();
+    animate(0);
 
     return () => {
       window.removeEventListener("resize", resizeCanvas);
@@ -146,8 +272,8 @@ const FloatingParticles: React.FC<{ darkMode: boolean }> = ({ darkMode }) => {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-0"
-      style={{ opacity: 0.6 }}
+      className="absolute inset-0 pointer-events-none"
+      style={{ opacity: 0.7 }}
     />
   );
 };
@@ -555,7 +681,7 @@ const Home: React.FC = () => {
       id="home"
       className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 relative overflow-hidden"
     >
-      <FloatingParticles darkMode={darkMode} />
+      <InteractiveBackground darkMode={darkMode} />
 
       {/* Interactive cursor follower */}
       <div
@@ -834,7 +960,9 @@ const Home: React.FC = () => {
 
           {/* Enhanced action buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center px-4">
-            <button
+            <a
+              href="/DonesRommel_DA.pdf"
+              download
               className={`group relative flex items-center gap-2 w-full sm:w-auto px-6 sm:px-8 py-3 rounded-lg transition-all duration-300 hover:scale-105 shadow-lg font-medium text-center justify-center overflow-hidden transform hover:-translate-y-1 ${
                 darkMode
                   ? "bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white"
@@ -845,7 +973,7 @@ const Home: React.FC = () => {
               <Download className="w-5 h-5 group-hover:animate-bounce relative z-10" />
               <span className="relative z-10">Download Resume</span>
               <div className="absolute -top-full left-0 w-full h-full bg-white/20 transform rotate-12 group-hover:top-full transition-all duration-700"></div>
-            </button>
+            </a>
 
             <button
               onClick={() => scrollToSection("contact")}
@@ -884,6 +1012,7 @@ const Home: React.FC = () => {
 const About: React.FC = () => {
   const { darkMode } = React.useContext(ThemeContext);
   const [isVisible, setIsVisible] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -903,6 +1032,24 @@ const About: React.FC = () => {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (sectionRef.current) {
+        const rect = sectionRef.current.getBoundingClientRect();
+        setMousePosition({
+          x: e.clientX - rect.left,
+          y: e.clientY - rect.top,
+        });
+      }
+    };
+
+    const section = sectionRef.current;
+    if (section) {
+      section.addEventListener("mousemove", handleMouseMove);
+      return () => section.removeEventListener("mousemove", handleMouseMove);
+    }
+  }, []);
+
   return (
     <section
       id="about"
@@ -911,13 +1058,24 @@ const About: React.FC = () => {
         darkMode ? "bg-gray-800" : "bg-gray-50"
       }`}
     >
-      {/* Background decorative elements */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-blue-500 rounded-full animate-float"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-24 h-24 bg-purple-500 rounded-full animate-float-delay"></div>
-      </div>
+      {/* Enhanced Interactive Background */}
+      <InteractiveBackground darkMode={darkMode} />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      {/* Mouse follower effect */}
+      <div
+        className="absolute pointer-events-none transition-all duration-300 ease-out z-10"
+        style={{
+          left: mousePosition.x - 100,
+          top: mousePosition.y - 100,
+          width: 200,
+          height: 200,
+          background: darkMode
+            ? "radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%)"
+            : "radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%)",
+        }}
+      />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
         <div
           className={`text-center mb-12 sm:mb-16 ${
             isVisible ? "animate-fadeInUp" : "opacity-0"
@@ -1061,14 +1219,14 @@ const About: React.FC = () => {
               <div
                 className={`${
                   darkMode ? "text-gray-300" : "text-gray-700"
-                } leading-relaxed text-justify indent-8`}
+                } leading-relaxed text-justify`}
               >
-                Hi! I’m Rommel Dones from Sta. Rosa, Laguna, a Computer
+                Hi! I'm Rommel Dones from Sta. Rosa, Laguna, a Computer
                 Engineering graduate from Laguna State Polytechnic University. I
                 gained experience in programming (Python, Java, C++, Arduino)
                 and circuit design during my studies. My internship sparked my
                 passion for web development, leading me to self-learn React.js
-                and Tailwind CSS. Currently, I’m working as an Analyst
+                and Tailwind CSS. Currently, I'm working as an Analyst
                 Programmer while continuously improving my skills in web
                 development and data analysis to further grow in tech.
               </div>
@@ -1084,13 +1242,13 @@ const About: React.FC = () => {
             </div>
 
             {/* Fun facts section */}
-            <div className="mt-6 p-4 rounded-lg border-l-4 border-blue-500 bg-blue-50/50 dark:bg-blue-800/20">
+            <div className="mt-6 p-4 rounded-lg border-l-4 border-blue-500 bg-blue-50/50 dark:bg-blue-800/20 backdrop-blur-sm">
               <div className="flex items-center mb-2">
                 <Coffee className="w-4 h-4 text-amber-700 dark:text-amber-400 mr-2 animate-bounce" />
                 <span className="font-mono text-sm font-bold">Fun Facts</span>
               </div>
-              <ul className="text-sm space-y-1 text-gray-500 font-bold ">
-                <li className="animate-slideInLeft ">
+              <ul className="text-sm space-y-1 text-gray-600 dark:text-gray-400">
+                <li className="animate-slideInLeft">
                   ☕ Coffee consumed:{" "}
                   <span className="font-bold text-amber-700 dark:text-amber-400">
                     ∞ cups
@@ -1119,6 +1277,97 @@ const About: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Custom CSS for animations */}
+      <style>{`
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        @keyframes slideInLeft {
+          from {
+            opacity: 0;
+            transform: translateX(-50px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+        
+        @keyframes slideInRight {
+          from {
+            opacity: 0;
+            transform: translateX(50px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+        
+        @keyframes expandWidth {
+          from {
+            width: 0;
+          }
+          to {
+            width: 6rem;
+          }
+        }
+        
+        @keyframes gradient-rotate {
+          0% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
+        }
+        
+        @keyframes typing {
+          from {
+            width: 0;
+          }
+          to {
+            width: 100%;
+          }
+        }
+
+        .animate-fadeInUp {
+          animation: fadeInUp 0.8s ease-out;
+        }
+        
+        .animate-slideInLeft {
+          animation: slideInLeft 0.8s ease-out;
+        }
+        
+        .animate-slideInRight {
+          animation: slideInRight 0.8s ease-out;
+        }
+        
+        .animate-expandWidth {
+          animation: expandWidth 1s ease-out;
+        }
+        
+        .animate-gradient-rotate {
+          animation: gradient-rotate 3s ease infinite;
+          background-size: 200% 200%;
+        }
+        
+        .animate-typing {
+          animation: typing 2s steps(20, end);
+        }
+      `}</style>
     </section>
   );
 };
@@ -1399,6 +1648,66 @@ const Projects: React.FC = () => {
       github: "https://github.com/omeldon/bible-ReactJS",
       demo: "https://bi-verse.vercel.app/",
       technologies: ["React", "Material-UI", "Vite", "Tailwind"],
+    },
+    {
+      id: 4,
+      title: "Static Filipino Sign Language Interpreter",
+      description:
+        "A machine learning project that recognizes and interprets static Filipino Sign Language gestures using Python and TensorFlow. Built to assist communication and promote accessibility through real-time gesture recognition.",
+      image: Work04,
+      github: "https://github.com/omeldon/Python-Codes",
+      demo: "",
+      technologies: ["Python","Machine Learning"],
+    },
+    {
+      id: 5,
+      title: "Intruder Alert System using Ultrasonic Sensor",
+      description:
+        "An Arduino-based security system that detects intruders using an ultrasonic sensor and triggers an alert. Designed and simulated in TinkerCad to demonstrate real-time distance sensing and safety applications.",
+      image: Work05,
+      github: "https://github.com/omeldon/Arduino-Codes",
+      demo: "",
+      technologies: ["Arduino, TinkerCad"],
+    },
+    {
+      id: 6,
+      title: "Line Follower Robot using L293D",
+      description:
+         "A robotics project that uses an Arduino and L293D motor driver to create an autonomous robot capable of following a track. Simulated in TinkerCad to showcase embedded systems and automation concepts.",
+      image: Work06,
+      github: "https://github.com/omeldon/Arduino-Codes",
+      demo: "",
+      technologies: ["Arduino, TinkerCad"],
+    },
+    {
+      id: 7,
+      title: "Power BI Sample Dashboard",
+      description:
+        "An interactive Power BI dashboard designed to visualize and analyze sales performance data. Includes KPIs, trend analysis, and dynamic filters for better business insights.",
+      image: Work07,
+      github: "https://github.com/omeldon/Power-BI-Projects",
+      demo: "",
+      technologies: ["Power BI"],
+    },
+    {
+      id: 8,
+      title: "Power BI Sample Dashboard",
+      description:
+        "A Power BI dashboard showcasing Call Center metrics such as employee demographics, performance, and retention. Built to provide clear insights for data-driven decision-making.",
+      image: Work08,
+      github: "https://github.com/omeldon/Power-BI-Projects",
+      demo: "",
+      technologies: ["Power BI"],
+    },
+    {
+      id: 9,
+      title: "React Website using Tailwind",
+      description:
+         "A modern and responsive website built with React and Tailwind CSS. Focused on clean UI, reusable components, and optimized performance for a smooth user experience.",
+      image: Work09,
+      github: "https://github.com/omeldon/direcho-trabaho-project-figma-mockup-master",
+      demo: "https://dt-final-project.vercel.app/",
+      technologies: ["React", "Material-UI", "Tailwind"],
     },
   ];
 

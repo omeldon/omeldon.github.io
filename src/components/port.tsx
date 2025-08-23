@@ -1430,6 +1430,9 @@ const Skills: React.FC = () => {
       ref={sectionRef}
       className="py-16 sm:py-20 relative overflow-hidden"
     >
+
+      <InteractiveBackground darkMode={darkMode} />
+
       {/* Animated background */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 animate-gradient-shift"></div>
@@ -1714,8 +1717,12 @@ const Projects: React.FC = () => {
   return (
     <section
       id="projects"
-      className={`py-20 ${darkMode ? "bg-gray-800" : "bg-gray-50"}`}
+      className={`py-16 sm:py-20 relative overflow-hidden ${
+        darkMode ? "bg-gray-800" : "bg-gray-50"
+      }`}
     >
+      <InteractiveBackground darkMode={darkMode} />
+      
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2
@@ -1940,6 +1947,7 @@ const Contact: React.FC = () => {
       className="py-16 sm:py-20 relative overflow-hidden"
     >
       {/* Background Pattern */}
+      <InteractiveBackground darkMode={darkMode} />
       <div className="absolute inset-0 opacity-5">
         <div
           className="absolute inset-0"

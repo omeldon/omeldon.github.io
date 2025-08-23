@@ -741,7 +741,7 @@ const Home: React.FC = () => {
                       darkMode ? "text-yellow-400" : "text-yellow-600"
                     } animate-glow`}
                   >
-                    "Creating amazing experiences"
+                    "Continuously learning and growing"
                   </span>
                   <span
                     className={darkMode ? "text-gray-300" : "text-gray-700"}
@@ -775,7 +775,7 @@ const Home: React.FC = () => {
                       darkMode ? "text-yellow-400" : "text-yellow-600"
                     } animate-glow`}
                   >
-                    "Available for hire"
+                    "Employed"
                   </span>
                   <Heart className="inline w-3 h-3 ml-1 text-red-500 animate-heartbeat" />
                 </div>

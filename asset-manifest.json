@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/static/css/main.c29163fc.css",
+    "main.js": "/static/js/main.0a434a8b.js",
+    "static/js/125.0799c126.chunk.js": "/static/js/125.0799c126.chunk.js",
+    "static/media/DONES_ROMMEL_G.png": "/static/media/DONES_ROMMEL_G.273db688008da79d66c5.png",
+    "static/media/work-2.png": "/static/media/work-2.93cdae53c80049296162.png",
+    "static/media/work-1.png": "/static/media/work-1.34a19c77722ffd3cba29.png",
+    "static/media/work-3.png": "/static/media/work-3.0b1eb2263d8ca41b71ee.png",
+    "index.html": "/index.html",
+    "main.c29163fc.css.map": "/static/css/main.c29163fc.css.map",
+    "main.0a434a8b.js.map": "/static/js/main.0a434a8b.js.map",
+    "125.0799c126.chunk.js.map": "/static/js/125.0799c126.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c29163fc.css",
+    "static/js/main.0a434a8b.js"
+  ]
+}

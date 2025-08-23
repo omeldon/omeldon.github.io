@@ -19,16 +19,16 @@
     "web-vitals": "^2.1.4"
   },
   "repository": {
-  "type": "git",
-  "url": "git+https://github.com/omeldon/omeldon.github.io.git"
-},
+    "type": "git",
+    "url": "git+https://github.com/omeldon/omeldon.github.io.git"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build --no-history"
+    "deploy": "gh-pages -d build --no-history --git"
   },
   "eslintConfig": {
     "extends": [

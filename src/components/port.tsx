@@ -406,7 +406,7 @@ const Navbar: React.FC = () => {
               } ${isScrolled ? "animate-bounce" : ""}`}
             >
               <Terminal className="inline w-3 h-3 mr-1" />
-              Rommel Dones - Portfolio.exe
+               Dones - Portfolio.exe
             </span>
           </div>
           <div className="flex items-center space-x-2 relative z-10">
@@ -799,7 +799,7 @@ const Home: React.FC = () => {
                       darkMode ? "text-yellow-400" : "text-yellow-600"
                     } animate-glow`}
                   >
-                    "Rommel Dones"
+                    " Dones"
                   </span>
                   <span
                     className={darkMode ? "text-gray-300" : "text-gray-700"}
@@ -935,7 +935,7 @@ const Home: React.FC = () => {
                 : "0 0 20px rgba(99, 102, 241, 0.3)",
             }}
           >
-            <span className="animate-wave inline-block">Rommel Dones</span>
+            <span className="animate-wave inline-block"> Dones</span>
           </h1>
 
           <TypewriterText darkMode={darkMode} />
@@ -961,7 +961,7 @@ const Home: React.FC = () => {
           {/* Enhanced action buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center px-4">
             <a
-              href="/DonesRommel_DA.pdf"
+              href="/DonesRommel.pdf"
               download
               className={`group relative flex items-center gap-2 w-full sm:w-auto px-6 sm:px-8 py-3 rounded-lg transition-all duration-300 hover:scale-105 shadow-lg font-medium text-center justify-center overflow-hidden transform hover:-translate-y-1 ${
                 darkMode
@@ -1221,14 +1221,8 @@ const About: React.FC = () => {
                   darkMode ? "text-gray-300" : "text-gray-700"
                 } leading-relaxed text-justify`}
               >
-                Hi! I'm Rommel Dones from Sta. Rosa, Laguna, a Computer
-                Engineering graduate from Laguna State Polytechnic University. I
-                gained experience in programming (Python, Java, C++, Arduino)
-                and circuit design during my studies. My internship sparked my
-                passion for web development, leading me to self-learn React.js
-                and Tailwind CSS. Currently, I'm working as an Analyst
-                Programmer while continuously improving my skills in web
-                development and data analysis to further grow in tech.
+                With nearly 4 years of experience spanning electronics manufacturing and IT, currently working as SAP C4C Consultant providing functional support across Europe, North and Latin America, and Asia Pacific. Handles ticket review, change request management, queue dispatch, and non-regression testing for scheduled transports and SAP upgrades.
+Previously a Quality Control Engineer in electronics manufacturing, analyzing quality data to generate actionable reports for customers and stakeholders using Excel, Tibco Spotfire, and Power BI. Also handled line monitoring, internal audits, and collaborated with production and engineering teams to drive process improvements.
               </div>
 
               <div className="mt-3 flex items-center space-x-2 text-xs">

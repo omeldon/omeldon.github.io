@@ -23,7 +23,6 @@ import {
   Github,
   ExternalLink,
   Linkedin,
-  Twitter,
   Facebook,
   Menu,
   X,

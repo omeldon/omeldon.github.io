@@ -20,7 +20,6 @@ import {
   Database,
   Computer,
   AppWindowIcon,
-  Globe,
   Github,
   ExternalLink,
   Linkedin,
@@ -38,9 +37,6 @@ import {
   Star,
   ChevronDown,
   Eye,
-  MessageCircle,
-  ThumbsUp,
-  Calendar,
   Award,
   MapPin,
   Phone,
@@ -283,38 +279,38 @@ const useIntersectionObserver = (options = {}) => {
   const elementRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(entry.isIntersecting);
-      },
-      { threshold: 0.1, ...options }
-    );
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      setIsVisible(entry.isIntersecting);
+    },
+    { threshold: 0.1, ...options }
+  );
 
-    if (elementRef.current) {
-      observer.observe(elementRef.current);
-    }
+  if (elementRef.current) {
+    observer.observe(elementRef.current);
+  }
 
-    return () => observer.disconnect();
-  }, []);
+  return () => observer.disconnect();
+}, [options]);
 
-  return [elementRef, isVisible] as const;
+return [elementRef, isVisible] as const;
 };
 
 // Parallax Hook
-const useParallax = () => {
-  const [offset, setOffset] = useState(0);
+// const useParallax = () => {
+//   const [offset, setOffset] = useState(0);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setOffset(window.pageYOffset);
-    };
+//   useEffect(() => {
+//     const handleScroll = () => {
+//       setOffset(window.pageYOffset);
+//     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+//     window.addEventListener("scroll", handleScroll);
+//     return () => window.removeEventListener("scroll", handleScroll);
+//   }, []);
 
-  return offset;
-};
+//   return offset;
+// };
 
 // VS Code themed Navbar Component
 const Navbar: React.FC = () => {

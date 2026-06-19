@@ -1867,12 +1867,6 @@ const Contact: React.FC = () => {
       color: "hover:text-gray-600",
     },
     {
-      icon: Twitter,
-      label: "Twitter",
-      href: "https://x.com/RommelDones",
-      color: "hover:text-blue-400",
-    },
-    {
       icon: Facebook,
       label: "Facebook",
       href: "https://web.facebook.com/rommel.dones.424/",

@@ -602,6 +602,7 @@ const Navbar: React.FC = () => {
 // Home Component
 
 const roles = [
+  "SAP C4C Functional Consultant",
   "Computer Engineer ",
   "Data Analyst ",
   "Web Developer ",
@@ -829,7 +830,7 @@ const Home: React.FC = () => {
                       darkMode ? "text-yellow-400" : "text-yellow-600"
                     } animate-glow`}
                   >
-                    "Computer Engineer"
+                    "SAP C4C Functional Consultant"
                   </span>
                   <span
                     className={darkMode ? "text-gray-300" : "text-gray-700"}

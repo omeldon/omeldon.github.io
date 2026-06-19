@@ -402,7 +402,7 @@ const Navbar: React.FC = () => {
               } ${isScrolled ? "animate-bounce" : ""}`}
             >
               <Terminal className="inline w-3 h-3 mr-1" />
-               Dones - Portfolio.exe
+               Rommel Dones - Portfolio.exe
             </span>
           </div>
           <div className="flex items-center space-x-2 relative z-10">
@@ -796,7 +796,7 @@ const Home: React.FC = () => {
                       darkMode ? "text-yellow-400" : "text-yellow-600"
                     } animate-glow`}
                   >
-                    " Dones"
+                    "Rommel Dones"
                   </span>
                   <span
                     className={darkMode ? "text-gray-300" : "text-gray-700"}
@@ -932,7 +932,7 @@ const Home: React.FC = () => {
                 : "0 0 20px rgba(99, 102, 241, 0.3)",
             }}
           >
-            <span className="animate-wave inline-block"> Dones</span>
+            <span className="animate-wave inline-block">Rommel Dones</span>
           </h1>
 
           <TypewriterText darkMode={darkMode} />

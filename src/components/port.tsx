@@ -1240,7 +1240,7 @@ Previously a Quality Control Engineer in electronics manufacturing, analyzing qu
               </div>
               <ul className="text-sm space-y-1 text-gray-600 dark:text-gray-400">
                 <li className="animate-slideInLeft">
-                  ☕ Coffee consumed:{" "}
+                  Coffee consumed:{" "}
                   <span className="font-bold text-amber-700 dark:text-amber-400">
                     ∞ cups
                   </span>
@@ -1249,7 +1249,7 @@ Previously a Quality Control Engineer in electronics manufacturing, analyzing qu
                   className="animate-slideInLeft"
                   style={{ animationDelay: "0.1s" }}
                 >
-                  🌙 Late night coding sessions:{" "}
+                  Late night coding sessions:{" "}
                   <span className="font-bold text-blue-600 dark:text-blue-400">
                     countless
                   </span>
@@ -1258,7 +1258,7 @@ Previously a Quality Control Engineer in electronics manufacturing, analyzing qu
                   className="animate-slideInLeft"
                   style={{ animationDelay: "0.2s" }}
                 >
-                  🐛 Bugs fixed:{" "}
+                  Bugs fixed:{" "}
                   <span className="font-bold text-green-600 dark:text-green-400">
                     too many to count
                   </span>
@@ -1833,8 +1833,8 @@ const Contact: React.FC = () => {
     {
       icon: Mail,
       label: "Email",
-      value: "omeldon424@gmail.com",
-      href: "mailto:omeldon424@gmail.com",
+      value: "donesrommel2000@gmail.com",
+      href: "mailto:donesrommel2000@gmail.com",
       color: "text-red-500",
     },
     {
